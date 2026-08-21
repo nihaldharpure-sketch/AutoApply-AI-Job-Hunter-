@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AutoApply — AI-powered job application automation. Upload your resume, find matching jobs on LinkedIn, Indeed & Glassdoor, and apply with one click." />
+  <title>AutoApply — AI Job Hunter for Nihal Dharpure</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><text y='20' font-size='20'>⚡</text></svg>" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- External Libraries -->
+
+  <!-- PDF.js for resume parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
+
+  <!-- Mammoth.js for DOCX parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
+  <!-- Chart.js for dashboard charts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+  <!-- Loading overlay style -->
+  <style>
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: #07070f;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    #loading-screen.fade-out { opacity: 0; pointer-events: none; }
+    .loading-logo {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 40px rgba(99,102,241,0.5);
+      animation: loadPulse 1.5s ease-in-out infinite;
+    }
+    .loading-text {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+      letter-spacing: 0.05em;
+    }
+    .loading-dots { display: flex; gap: 6px; }
+    .loading-dot {
+      width: 8px; height: 8px;
+      background: #6366f1;
+      border-radius: 50%;
+      animation: dotBounce 1.2s ease-in-out infinite;
+    }
+    .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes loadPulse  { 0%,100% { box-shadow: 0 0 40px rgba(99,102,241,0.5); } 50% { box-shadow: 0 0 60px rgba(99,102,241,0.8); } }
+    @keyframes dotBounce  { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-10px); } }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loading-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" width="32" height="32">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+    </div>
+    <div class="loading-text">Initializing AutoApply...</div>
+    <div class="loading-dots">
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+    </div>
+  </div>
+
+  <!-- App Shell (populated by app.js) -->
+  <div id="app"></div>
+
+  <!-- Main App Module -->
+  <script type="module" src="app.js"></script>
+
+  <!-- Hide loading screen after app boots -->
+  <script type="module">
+    // Wait for DOMContentLoaded + small delay for fonts
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const screen = document.getElementById('loading-screen');
+        if (screen) {
+          screen.classList.add('fade-out');
+          setTimeout(() => screen.remove(), 500);
+        }
+      }, 800);
+    });
+  </script>
+</body>
+</html>
